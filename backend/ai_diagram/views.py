@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .services.gemini_service import generate_mermaid
 from .services.kroki_service import generate_diagram_url
-
+from rest_framework import status
 
 @api_view(['POST'])
 def generate_diagram(request):
@@ -16,8 +16,12 @@ def generate_diagram(request):
             'mermaid':mermaid_code,
             # 'diagram_url':diagram_url
         })
+
+
     except Exception as e:
-        return Response({
-            'error':str(e)
-        }),
-        status=429
+        return Response(
+            {
+                'error': str(e)
+            },
+            status=status.HTTP_429_TOO_MANY_REQUESTS
+        )
