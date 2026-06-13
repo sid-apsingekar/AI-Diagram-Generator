@@ -120,7 +120,3 @@ npm run dev
 - Use environment-specific API base URLs for frontend/backend
 - Add tests for the API and Mermaid rendering
 - Add a production-ready deployment path for Django and Next.js
-
-## License
-
-This repository does not include a license file. Add one to make reuse explicit.
