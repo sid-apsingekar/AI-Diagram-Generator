@@ -10,24 +10,27 @@ genai.configure(
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 def generate_mermaid(prompt):
-    system_prompt = f"""
-    You are a Mermaid diagram generator.
+    system_prompt =f"""
+        Generate ONLY valid Mermaid flowchart code.
 
-    Generate ONLY Mermaid syntax.
+        Rules:
+        - Return ONLY Mermaid code.
+        - Do NOT use markdown fences.
+        - Use flowchart TD.
+        - Avoid parentheses (), quotes, colons, and special characters in node labels.
+        - Use simple labels only.
+        - Output must be valid Mermaid syntax.
 
-    Rules:
-    - Return only Mermaid code.
-    - Do not explain anything.
-    - Do not use markdown.
-    - Do not use ```mermaid.
-    - Use flowchart TD unless another Mermaid diagram type is clearly better.
-
-    User Request:
-    {prompt}
-    """
+        User Request:
+        {prompt}
+            """
     response = model.generate_content(system_prompt)
     result =  response.text.strip()
     result = result.replace("```mermaid", "")
+    result = result.replace('(',"")
+    result = result.replace(')',"")
+    result = result.replace('"',"")
+    result = result.replace("'","")
     result = result.replace("```", "")
 
     return result.strip()
