@@ -11,10 +11,18 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 
 def generate_mermaid(prompt):
     system_prompt = f"""
-    Convert the user's request into mermaid diagram code.
-    return only mermaid code.
+    You are a Mermaid diagram generator.
 
-    user request :
+    Generate ONLY Mermaid syntax.
+
+    Rules:
+    - Return only Mermaid code.
+    - Do not explain anything.
+    - Do not use markdown.
+    - Do not use ```mermaid.
+    - Use flowchart TD unless another Mermaid diagram type is clearly better.
+
+    User Request:
     {prompt}
     """
     response = model.generate_content(system_prompt)
