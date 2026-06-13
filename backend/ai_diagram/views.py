@@ -8,10 +8,16 @@ from .services.kroki_service import generate_diagram_url
 @api_view(['POST'])
 def generate_diagram(request):
     prompt = request.data.get('prompt')
-    mermaid_code = generate_mermaid(prompt)
+    try:
+        mermaid_code = generate_mermaid(prompt)
     # diagram_url=generate_diagram_url(mermaid_code)
-    return Response({
-        'prompt':prompt,
-        'mermaid':mermaid_code,
-        # 'diagram_url':diagram_url
-    })
+        return Response({
+            'prompt':prompt,
+            'mermaid':mermaid_code,
+            # 'diagram_url':diagram_url
+        })
+    except Exception as e:
+        return Response({
+            'error':str(e)
+        }),
+        status=429
