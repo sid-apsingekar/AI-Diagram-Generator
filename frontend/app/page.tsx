@@ -18,6 +18,7 @@ export default function Home() {
       const response = await api.post("/generate-diagram/", {
         prompt,
       });
+      console.log(response.data);
 
       setDiagram(response.data.mermaid);
     } catch (error) {
