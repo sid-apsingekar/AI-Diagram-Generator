@@ -124,21 +124,11 @@ The backend currently returns a 429 status in some exception handlers for rate o
 - Backend: Deploy Django to any WSGI/ASGI host (e.g., Gunicorn + Nginx, or a PaaS like Heroku/Render/GCP App Engine). Keep `GEMINI_API_KEY` in the host's secret store.
 - If using the Kroki helper for PNG generation, ensure the external requests to `https://kroki.io` are permitted by your hosting environment's outbound rules.
 
-## Tests & QA
-
-- Add unit tests for `ai_diagram/services/gemini_service.py` by mocking the Gemini client.
-- Add end-to-end tests that hit the `/generate-diagram/` API using a test client and verify valid Mermaid output.
 
 ## Contributing
 
 - Fork the repo and open pull requests with focused changes.
 - Add tests for new behavior and update this README when you change the API contract.
 
-## Next improvements (ideas)
-
-- Replace hardcoded frontend API URL with `NEXT_PUBLIC_API_URL`.
-- Add request throttling and quota handling in the backend.
-- Provide diagram type selection (flowchart, sequence, class, state) with model instruction tuning.
-- Persist generated diagrams and provide a history UI.
 
 
