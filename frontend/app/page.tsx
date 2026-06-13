@@ -19,8 +19,6 @@ export default function Home() {
         prompt,
       });
 
-      console.log(response.data);
-
       setDiagram(response.data.mermaid);
     } catch (error) {
       console.error("Error generating diagram:", error);
@@ -28,6 +26,39 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const downloadSVG = () => {
+    const svg = document.querySelector("svg");
+
+    if (!svg) {
+      alert("No diagram found");
+      return;
+    }
+
+    const svgData = new XMLSerializer().serializeToString(svg);
+
+    const blob = new Blob(
+      [svgData],
+      {
+        type: "image/svg+xml;charset=utf-8",
+      }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "diagram.svg";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -38,7 +69,7 @@ export default function Home() {
         </h1>
 
         <p className="text-slate-400 mb-8">
-          Generate architecture diagrams using Gemini AI
+          Generate professional diagrams using Gemini AI
         </p>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
@@ -49,13 +80,24 @@ export default function Home() {
             className="w-full h-40 bg-slate-950 border border-slate-800 rounded-xl p-4 outline-none resize-none"
           />
 
-          <button
-            onClick={generateDiagram}
-            disabled={loading}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 px-6 py-3 rounded-xl transition"
-          >
-            {loading ? "Generating..." : "Generate Diagram"}
-          </button>
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={generateDiagram}
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 px-6 py-3 rounded-xl transition"
+            >
+              {loading ? "Generating..." : "Generate Diagram"}
+            </button>
+
+            {diagram && (
+              <button
+                onClick={downloadSVG}
+                className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl transition"
+              >
+                Download SVG
+              </button>
+            )}
+          </div>
         </div>
 
         {diagram && (
